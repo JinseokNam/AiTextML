@@ -229,6 +229,7 @@ private:
   void timelimit_handler(const boost::system::error_code& error,int signal_number);
   void check_save_time(const boost::system::error_code& ec);
   void check_validation_time(const boost::system::error_code& ec);
+  void clear_resources();
 
   // Allow serialization to access non-public data members.  
   friend class boost::serialization::access; 

@@ -155,6 +155,15 @@ void SupPar2Vec::setCorpus(HDF5Corpus *corpus)
   }
 }
 
+void SupPar2Vec::clear_resources()
+{
+  model_save_timer.cancel();
+  valid_check_timer.cancel();
+  signals.clear();
+  timelimit_signals.clear();
+  io.stop();
+}
+
 void SupPar2Vec::run_infer_unseen_documents(int thread_id, real *uD0)
 {
   boost::random_device rd; 
@@ -457,9 +466,7 @@ void SupPar2Vec::compute_validation_cost()
 
   if(n_finished_ == m_num_threads)
   {
-    model_save_timer.cancel();
-    valid_check_timer.cancel();
-    std::raise(SIGINT);
+    clear_resources();
   }
 }
 
@@ -510,7 +517,7 @@ void SupPar2Vec::timelimit_handler(
   if (!error)
   {
     save_model();
-    std::raise(SIGTERM);
+    exit(1);
   }
 }
 
@@ -623,9 +630,6 @@ void SupPar2Vec::train(int num_threads)
   }
 
   threads.join_all();
-
-  signals.clear();
-  timelimit_signals.clear();
 }
 
 void SupPar2Vec::infer(int num_iters, int num_threads, int verbose, std::string output_path)
@@ -1279,9 +1283,7 @@ void SupPar2Vec::run_train(int thread_id)
 
   if(n_finished_ == m_num_threads && !m_is_pretrain)
   {
-    model_save_timer.cancel();
-    valid_check_timer.cancel();
-    std::raise(SIGINT); 
+    clear_resources();
   }
 }
 
