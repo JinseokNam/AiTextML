@@ -634,7 +634,7 @@ void SupPar2Vec::infer(int num_iters, int num_threads, int verbose, std::string 
   boost::random::mt19937 rng(rd());
   NormalRandom normal_rand(rng, 0.0, 1.0);
 
-  int num_unseen_documents = m_hCorpus->get_num_test_instances();
+  long long num_unseen_documents = m_hCorpus->get_num_test_instances();
   //real train_lr;
   int train_num_iters, train_num_threads, train_verbose;
   long long train_sentences_seen_actual;

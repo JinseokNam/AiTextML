@@ -137,7 +137,7 @@ public:
     SupPar2Vec *model = new SupPar2Vec();
     std::ifstream in_stream(model_name);
     boost::archive::binary_iarchive iar(in_stream);
-    iar >> model;
+    iar >> *model;
     in_stream.close();
     LOG(INFO) << "A model is loaded from " << model_name;
     //LOG(INFO) << model->getParams();
